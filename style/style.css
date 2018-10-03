@@ -1,0 +1,7 @@
+p[complete="true"] {
+  text-decoration: line-through;
+}
+
+p[complete="false"] {
+  text-decoration: none;
+}

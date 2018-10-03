@@ -27,9 +27,7 @@ export default class TodoApp extends React.Component {
           <button>
             Add Task
           </button>
-          <button onClick={this.handleRemoveAll}>
-            Remove All Tasks
-          </button>
+          <RemoveAllButton items={this.state.items} removeAll={this.handleRemoveAll}/>
         </form>
 
         <TodoList items={this.state.items} handleRemoval={this.handleRemoval}/>
@@ -57,7 +55,6 @@ export default class TodoApp extends React.Component {
   }
 
   handleRemoval(e, id) {
-    console.log('handling removal');
     e.preventDefault();
     this.setState( state => ({
       items: state.items.filter(ele => ele.id != id),
@@ -73,4 +70,13 @@ export default class TodoApp extends React.Component {
     }));
   }
 
+}
+
+function RemoveAllButton(props) {
+  if(props.items.length != 0) {
+    return (<button onClick={props.removeAll}>
+      Remove All Tasks
+    </button>);
+  }
+  return <div></div>
 }
