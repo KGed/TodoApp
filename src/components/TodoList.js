@@ -12,7 +12,7 @@ export default class TodoList extends React.Component {
     return (
       <ul className="list-group">
         {this.props.items.map(item => (
-          <TodoItem  key={item.id} item={item} handleRemoval={this.props.handleRemoval} />
+          <TodoItem key={item.id} item={item} handleRemoval={this.props.handleRemoval} />
         ))}
       </ul>
     );
@@ -29,8 +29,8 @@ class TodoItem extends React.Component {
   render() {
     return (
       <li className="list-group-item">
-        <p id={this.props.item.id} complete={this.state.complete.toString()}>{this.props.item.text}</p>
-        <CompleteButton complete={this.state.complete} handleComplete={this.handleComplete} />
+        <p className="todoItem" id={this.props.item.id} data-complete={this.state.complete}>{this.props.item.text}</p>
+        <CompleteButton complete={this.state.complete} handleComplete={() => this.handleComplete()} />
         <button
           className="btn btn-danger btn-sm"
           onClick={event => {this.props.handleRemoval(event, this.props.item.id)}}>
@@ -40,8 +40,7 @@ class TodoItem extends React.Component {
     );
   }
 
-  handleComplete(e) {
-    e.preventDefault();
+  handleComplete(comp) {
     this.setState(state => ({complete: true}));
   }
 
