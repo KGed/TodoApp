@@ -7,3 +7,23 @@
   height:auto;
   width:5px;
 }
+
+.h2 {
+  text-decoration: underline;
+}
+
+.h2, .h5 {
+  margin: 0 auto;
+  text-align: center;
+  width: 50%;
+}
+
+.removeButton {
+  margin: 0 auto;
+  width: 30%;
+}
+
+.todoInputForm {
+  margin: 0 auto;
+  width: 50%;
+}

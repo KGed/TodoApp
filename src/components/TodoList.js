@@ -54,19 +54,21 @@ class TodoItem extends React.Component {
       // This is after you click the edit button.
       return (
         <li className="list-group-item">
+          <div>
+            <form onSubmit={this.handleEditing}>
+              <input
+                type="text"
+                className="todoText"
+                id={this.props.item.id}
+                data-complete={this.state.complete}
+                value={this.props.item.text}
+                onChange={(e) => this.handleChange(e, this.props.item.id)}
+              />
+            </form>
+            <div className="divider"></div>
+          </div>
 
-          <input
-            type="text"
-            className="todoText"
-            id={this.props.item.id}
-            data-complete={this.state.complete}
-            value={this.props.item.text}
-            onChange={(e) => this.handleChange(e, this.props.item.id)}
-          />
-
-          <div className="divider"></div>
-
-        <EditButton complete={this.state.complete} isEditing={this.state.isEditing} onClick={this.handleEditing} />
+          <EditButton complete={this.state.complete} isEditing={this.state.isEditing} onClick={this.handleEditing} />
 
           <div className="divider"></div>
 

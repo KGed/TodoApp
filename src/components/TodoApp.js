@@ -14,12 +14,11 @@ export default class TodoApp extends React.Component {
 
   render() {
     return (
-      <div>
-        <h3>TODO</h3>
-        <form onSubmit={this.handleSubmit}>
-          <label htmlFor="new-todo">
-            What needs to be done?
-          </label>
+    <div>
+      <h2 className="h2">TODO:</h2>
+      <h5 className="h5">What needs to be done?</h5>
+      <div className="todoInputForm">
+        <form  onSubmit={this.handleSubmit}>
           <input
             id="new-todo"
             onChange={this.handleChange}
@@ -30,11 +29,18 @@ export default class TodoApp extends React.Component {
             Add Task
           </button>
           <div className="divider"></div>
-          <RemoveAllButton items={this.state.items} removeAll={this.handleRemoveAll}/>
-        </form>
 
-        <TodoList items={this.state.items} handleRemoval={this.handleRemoval} handleEdit={this.handleEdit}/>
+        </form>
       </div>
+
+
+      <TodoList items={this.state.items} handleRemoval={this.handleRemoval} handleEdit={this.handleEdit}/>
+    
+      <div className="removeButton">
+        <RemoveAllButton items={this.state.items} removeAll={this.handleRemoveAll}/>
+      </div>
+
+    </div>
     );
   }
 
@@ -86,7 +92,7 @@ export default class TodoApp extends React.Component {
 }
 
 function RemoveAllButton(props) {
-  if(props.items.length != 0) {
+  if(props.items.length >= 2) {
     return (<button onClick={props.removeAll}>
       Remove All Tasks
     </button>);
