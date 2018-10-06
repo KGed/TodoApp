@@ -9,6 +9,7 @@ export default class TodoApp extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleRemoval = this.handleRemoval.bind(this);
     this.handleRemoveAll = this.handleRemoveAll.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
   }
 
   render() {
@@ -24,15 +25,27 @@ export default class TodoApp extends React.Component {
             onChange={this.handleChange}
             value={this.state.text}
           />
+          <div className="divider"></div>
           <button>
             Add Task
           </button>
+          <div className="divider"></div>
           <RemoveAllButton items={this.state.items} removeAll={this.handleRemoveAll}/>
         </form>
 
-        <TodoList items={this.state.items} handleRemoval={this.handleRemoval}/>
+        <TodoList items={this.state.items} handleRemoval={this.handleRemoval} handleEdit={this.handleEdit}/>
       </div>
     );
+  }
+
+  handleEdit(e, id) {
+    let tasks = this.state.items;
+    for (let i = 0; i < tasks.length; i++) {
+      if (tasks[i].id == id) {
+        tasks[i].text = e.target.value;
+        break;
+      }
+    }
   }
 
   handleChange(e) {

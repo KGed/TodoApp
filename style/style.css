@@ -1,3 +1,9 @@
 .todoItem[data-complete="true"]{
     text-decoration: line-through;
 }
+
+.divider {
+  display:inline-block;
+  height:auto;
+  width:5px;
+}

@@ -12,7 +12,7 @@ export default class TodoList extends React.Component {
     return (
       <ul className="list-group">
         {this.props.items.map(item => (
-          <TodoItem key={item.id} item={item} handleRemoval={this.props.handleRemoval} />
+          <TodoItem key={item.id} item={item} handleRemoval={this.props.handleRemoval} handleEdit={this.props.handleEdit}/>
         ))}
       </ul>
     );
@@ -22,27 +22,82 @@ export default class TodoList extends React.Component {
 class TodoItem extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {complete: false};
+    this.state = {complete: false, isEditing: false, text: props.item.text};
     this.handleComplete = this.handleComplete.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleEditing = this.handleEditing.bind(this);
   }
 
   render() {
-    return (
-      <li className="list-group-item">
-        <p className="todoItem" id={this.props.item.id} data-complete={this.state.complete}>{this.props.item.text}</p>
-        <CompleteButton complete={this.state.complete} handleComplete={() => this.handleComplete()} />
-        <button
-          className="btn btn-danger btn-sm"
-          onClick={event => {this.props.handleRemoval(event, this.props.item.id)}}>
-          remove
-        </button>
-      </li>
-    );
+    // This is when you haven't clicked the edit button.
+    if(!this.state.isEditing){
+      return (
+        <li className="list-group-item">
+          <p className="todoItem" id={this.props.item.id} data-complete={this.state.complete}>{this.props.item.text}</p>
+
+          <CompleteButton complete={this.state.complete} handleComplete={() => this.handleComplete()} />
+
+          <div className="divider"></div>
+
+        <EditButton complete={this.state.complete} isEditing={this.state.isEditing} onClick={event => this.handleEditing(event)}/>
+
+          <div className="divider"></div>
+
+          <button
+            className="btn btn-danger btn-sm"
+            onClick={event => {this.props.handleRemoval(event, this.props.item.id)}}>
+            remove
+          </button>
+        </li>
+      );
+    }else {
+      // This is after you click the edit button.
+      return (
+        <li className="list-group-item">
+
+          <input
+            type="text"
+            className="todoText"
+            id={this.props.item.id}
+            data-complete={this.state.complete}
+            value={this.props.item.text}
+            onChange={(e) => this.handleChange(e, this.props.item.id)}
+          />
+
+          <div className="divider"></div>
+
+        <EditButton complete={this.state.complete} isEditing={this.state.isEditing} onClick={this.handleEditing} />
+
+          <div className="divider"></div>
+
+          <button
+            className="btn btn-danger btn-sm"
+            onClick={event => {this.props.handleRemoval(event, this.props.item.id)}}>
+            remove
+          </button>
+
+        </li>
+      );
+    }
   }
 
-  handleComplete(comp) {
+  handleComplete() {
     this.setState(state => ({complete: true}));
   }
+
+  handleEditing(event) {
+    if(!this.state.isEditing) {
+      this.setState({complete: this.state.complete, isEditing: true, text: this.state.text});
+    }else {
+      this.setState(state => ({complete: state.complete, isEditing: false, text: state.text}));
+    }
+  }
+
+  handleChange(e, id) {
+    this.setState({complete: this.state.complete, isEditing: this.state.isEditing, text: e.target.value});
+    this.props.handleEdit(e, id);
+  }
+
 
 
 }
@@ -58,6 +113,24 @@ function CompleteButton(props) {
       </button>
     );
   }else {
-    return <div></div>;
+    return null;
   }
+}
+
+function EditButton(props) {
+  if(!props.complete) {
+    if(props.isEditing) {
+      return (
+        <button className="btn btn-info btn-sm" onClick={props.onClick}>save</button>
+      );
+    }else {
+      return (
+        <button className="btn btn-info btn-sm" onClick={props.onClick}>edit</button>
+      );
+    }
+
+  }else {
+      return null;
+  }
+
 }
